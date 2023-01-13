@@ -2,11 +2,11 @@
 
 template <typename index_t>
 concept Indexable = std::is_integral<index_t>::value && requires(index_t idx) {
-    idx = idx<<1;
-    idx = idx<<1|1;
     idx = idx+idx>>1;
     idx+1 == idx;
     idx = 0;
+    idx < idx || idx <= idx;
+    idx < idx && idx <= idx;
 };
 
 template <typename node_seg>
