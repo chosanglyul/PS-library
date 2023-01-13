@@ -1,8 +1,8 @@
 #include "_segtree_type.hpp"
 #include <vector>
 
-template <typename node_seg, typename node_lazy, typename index_t = int>
-    requires Indexable<index_t> && Segable<node_seg> && Lazyable<node_seg, node_lazy, index_t>
+template <typename node_seg, typename node_lazy, typename node_query = node_lazy, typename index_t = int>
+    requires Indexable<index_t> && Lazyable<node_seg, node_lazy, node_query, index_t>
 class SegtreeLazy {
     private:
     const size_t n;
@@ -11,10 +11,10 @@ class SegtreeLazy {
 
     void prop(const size_t i, const index_t s, const index_t e) {
         if(!(s+1 == e)) {
-            lazy[i<<1] = lazy[i<<1]+lazy[i];
-            seg[i<<1] = lazy[i](seg[i<<1], s, s+e>>1);
-            lazy[i<<1|1] = lazy[i<<1|1]+lazy[i];
-            seg[i<<1|1] = lazy[i](seg[i<<1|1], s+e>>1, e);
+            lazy[i<<1] += lazy[i];
+            seg[i<<1](lazy[i], s, s+e>>1);
+            lazy[i<<1|1] += lazy[i];
+            seg[i<<1|1](lazy[i], s+e>>1, e);
         }
         lazy[i] = node_lazy::inf();
     }
@@ -28,12 +28,12 @@ class SegtreeLazy {
         }
     }
 
-    void update(const size_t i, const index_t s, const index_t e, const index_t l, const index_t r, const node_lazy &x) {
+    void update(const size_t i, const index_t s, const index_t e, const index_t l, const index_t r, const node_query &x) {
         prop(i, s, e);
         if(r <= s || e <= l) return;
         if(l <= s && e <= r) {
-            seg[i] = x(seg[i], s, e);
-            lazy[i] = lazy[i]+x;
+            seg[i](x, s, e);
+            lazy[i] += x;
         } else {
             update(i<<1, s, s+e>>1, l, r, x);
             update(i<<1|1, s+e>>1, e, l, r, x);
@@ -41,7 +41,7 @@ class SegtreeLazy {
         }
     }
 
-    node_seg query(const size_t i, const index_t s, const index_t e, const index_t l, const index_t r) const {
+    node_seg query(const size_t i, const index_t s, const index_t e, const index_t l, const index_t r) {
         prop(i, s, e);
         if(r <= s || e <= l) return node_seg::inf();
         if(l <= s && e <= r) return seg[i];
@@ -49,11 +49,11 @@ class SegtreeLazy {
     }
 
     public:
-    Segtree(std::vector<node_seg> &A) : n(A.size()) {
+    SegtreeLazy(std::vector<node_seg> &A) : n(A.size()) {
         seg.resize(4*n, node_seg::inf());
         lazy.resize(4*n, node_lazy::inf());
         init(1, 0, n, A);
     }
-    void update(const index_t l, const index_t r, const node_lazy &x) { update(1, 0, n, l, r, x); }
-    node_seg query(const index_t l, const index_t r) const { return query(1, 0, n, l, r); }
+    void update(const index_t l, const index_t r, const node_query &x) { update(1, 0, n, l, r, x); }
+    node_seg query(const index_t l, const index_t r) { return query(1, 0, n, l, r); }
 };
