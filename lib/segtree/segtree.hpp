@@ -8,14 +8,14 @@ class Segtree {
 	const size_t n;
 	std::vector<node_seg> seg;
 
-    void init(const size_t i, const index_t s, const index_t e, const std::vector<node_seg> &A) {
-        if(s+1 == e) seg[i] = A[s];
-        else {
-            init(i<<1, s, s+e>>1, A);
-            init(i<<1|1, s+e>>1, e, A);
-            seg[i] = seg[i<<1]+seg[i<<1|1];
-        }
-    }
+	void init(const size_t i, const index_t s, const index_t e, const std::vector<node_seg> &A) {
+	    if(s+1 == e) seg[i] = A[s];
+	    else {
+	        init(i<<1, s, s+e>>1, A);
+	        init(i<<1|1, s+e>>1, e, A);
+	        seg[i] = seg[i<<1]+seg[i<<1|1];
+	    }
+	}
 
 	void update(const size_t i, const index_t s, const index_t e, const index_t j, const node_query &x) {
 		if(j >= e || s > j) return;
@@ -35,9 +35,9 @@ class Segtree {
 
 	public:
 	Segtree(const std::vector<node_seg> &A) : n(A.size()) {
-        seg.resize(4*n, node_seg::inf());
-        init(1, 0, n, A);
-    }
+		seg.resize(4*n, node_seg::inf());
+	    init(1, 0, n, A);
+	}
 	void update(const index_t j, const node_query &x) { update(1, 0, n, j, x); }
 	node_seg query(const index_t l, const index_t r) const { return query(1, 0, n, l, r); }
 };
