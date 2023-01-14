@@ -1,8 +1,8 @@
 #include "_segtree_type.hpp"
 #include <vector>
+#include <cstddef>
 
 template <typename node_seg, typename node_query = node_seg, typename index_t = int>
-	requires Indexable<index_t> && Segable<node_seg, node_query>
 class Segtree {
 	private:
 	const size_t n;
@@ -40,4 +40,17 @@ class Segtree {
 	}
 	void update(const index_t j, const node_query &x) { update(1, 0, n, j, x); }
 	node_seg query(const index_t l, const index_t r) const { return query(1, 0, n, l, r); }
+};
+
+template <typename node_seg, typename node_query = node_seg, typename index_t = int>
+class SegtreeWithoutInf {
+	private:
+	using node_inf_seg = node_inf<node_seg>;
+	Segtree<node_inf_seg, node_query, index_t> seg;
+
+	public:
+	SegtreeWithoutInf(const int n) : seg(Segtree<node_inf_seg, node_query, index_t>(std::vector<node_inf_seg>(n, node_inf_seg::inf()))) {}
+	SegtreeWithoutInf(const std::vector<node_seg> &A) : seg(Segtree<node_inf_seg, node_query, index_t>(std::vector<node_inf_seg>(A))) {}
+	void update(const index_t j, const node_query &x) { seg.update(j, x); }
+	node_seg query(const index_t l, const index_t r) const { return seg.query(l, r).node; }
 };
