@@ -69,5 +69,9 @@ class SegtreeLazyWithoutInf {
 	SegtreeLazyWithoutInf(const int n) : seg(seg_t(std::vector<node_inf_seg>(n, node_inf_seg::inf()))) {}
 	SegtreeLazyWithoutInf(const std::vector<node_seg> &A) : seg(seg_t(std::vector<node_inf_seg>(A.begin(), A.end()))) {}
 	void update(const index_t l, const index_t r, const node_query &x) { seg.update(l, r, x); }
-	node_seg query(const index_t l, const index_t r) { return seg.query(l, r).node; }
+	node_seg query(const index_t l, const index_t r) { 
+        node_inf_seg res = seg.query(l, r).node;
+        if(res.is_inf) return node_seg();
+        else return res.node;
+    }
 };
