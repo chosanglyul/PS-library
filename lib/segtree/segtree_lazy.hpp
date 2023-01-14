@@ -18,7 +18,7 @@ class SegtreeLazy {
         lazy[i] = node_lazy::inf();
     }
 
-    void init(const size_t i, const index_t s, const index_t e, std::vector<node_seg> &A) {
+    void init(const size_t i, const index_t s, const index_t e, const std::vector<node_seg> &A) {
         if(s+1 == e) seg[i] = A[s];
         else {
             init(i<<1, s, s+e>>1, A);
@@ -48,11 +48,26 @@ class SegtreeLazy {
     }
 
     public:
-    SegtreeLazy(std::vector<node_seg> &A) : n(A.size()) {
+    SegtreeLazy(const std::vector<node_seg> &A) : n(A.size()) {
         seg.resize(4*n, node_seg::inf());
         lazy.resize(4*n, node_lazy::inf());
         init(1, 0, n, A);
     }
     void update(const index_t l, const index_t r, const node_query &x) { update(1, 0, n, l, r, x); }
     node_seg query(const index_t l, const index_t r) { return query(1, 0, n, l, r); }
+};
+
+template <typename node_seg, typename node_lazy, typename node_query = node_lazy, typename index_t = int>
+class SegtreeLazyWithoutInf {
+	private:
+	using node_inf_seg = node_inf<node_seg>;
+    using node_inf_lazy = node_inf<node_lazy>;
+    using seg_t = SegtreeLazy<node_inf_seg, node_inf_lazy, node_query, index_t>;
+	seg_t seg;
+
+	public:
+	SegtreeLazyWithoutInf(const int n) : seg(seg_t(std::vector<node_inf_seg>(n, node_inf_seg::inf()))) {}
+	SegtreeLazyWithoutInf(const std::vector<node_seg> &A) : seg(seg_t(std::vector<node_inf_seg>(A.begin(), A.end()))) {}
+	void update(const index_t l, const index_t r, const node_query &x) { seg.update(l, r, x); }
+	node_seg query(const index_t l, const index_t r) { return seg.query(l, r).node; }
 };
