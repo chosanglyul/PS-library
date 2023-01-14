@@ -50,7 +50,7 @@ class SegtreeWithoutInf {
 
 	public:
 	SegtreeWithoutInf(const int n) : seg(Segtree<node_inf_seg, node_query, index_t>(std::vector<node_inf_seg>(n, node_inf_seg::inf()))) {}
-	SegtreeWithoutInf(const std::vector<node_seg> &A) : seg(Segtree<node_inf_seg, node_query, index_t>(std::vector<node_inf_seg>(A))) {}
+	SegtreeWithoutInf(const std::vector<node_seg> &A) : seg(Segtree<node_inf_seg, node_query, index_t>(std::vector<node_inf_seg>(A.begin(), A.end()))) {}
 	void update(const index_t j, const node_query &x) { seg.update(j, x); }
 	node_seg query(const index_t l, const index_t r) const { return seg.query(l, r).node; }
 };
