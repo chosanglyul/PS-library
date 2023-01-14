@@ -20,8 +20,8 @@ struct node_inf {
         return node_inf<node_t>(node+y.node);
     }
 
-    template <typename node_query>
-    void operator+=(const node_inf<node_query> &y) {
+    template <typename node_lazy>
+    void operator+=(const node_inf<node_lazy> &y) {
         if(is_inf) {
             is_inf = y.is_inf;
             if(!y.is_inf) node = node_t(y.node);
