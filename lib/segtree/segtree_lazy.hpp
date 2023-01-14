@@ -2,7 +2,6 @@
 #include <vector>
 
 template <typename node_seg, typename node_lazy, typename node_query = node_lazy, typename index_t = int>
-    requires Indexable<index_t> && Lazyable<node_seg, node_lazy, node_query, index_t>
 class SegtreeLazy {
     private:
     const size_t n;
