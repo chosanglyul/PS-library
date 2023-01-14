@@ -1,6 +1,5 @@
 #include "_segtree_type.hpp"
 #include <vector>
-#include <cstddef>
 
 template <typename node_seg, typename node_query = node_seg, typename index_t = int>
 class Segtree {
