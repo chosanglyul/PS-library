@@ -33,6 +33,9 @@ class Segtree {
 	}
 
 	public:
+	Segtree(const int n) : n(n) {
+		seg.resize(4*n, node_seg::inf());
+	}
 	Segtree(const std::vector<node_seg> &A) : n(A.size()) {
 		seg.resize(4*n, node_seg::inf());
 	    init(1, 0, n, A);
