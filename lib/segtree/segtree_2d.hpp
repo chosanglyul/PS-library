@@ -1,3 +1,6 @@
+#ifndef __SEGTREE_SEGTREE_2D_H_
+#define __SEGTREE_SEGTREE_2D_H_
+
 #include "_segtree_type.hpp"
 #include "segtree_dynamic.hpp"
 #include <vector>
@@ -28,3 +31,5 @@ class Segtree2D {
     void update(const index_t j, const index_t k, const node_query &x) { update(1, 0, n, j, k, x); }
     node_seg query(const index_t jl, const index_t jr, const index_t kl, const index_t kr) { return query(1, 0, n, jl, jr, kl, kr); }
 };
+
+#endif

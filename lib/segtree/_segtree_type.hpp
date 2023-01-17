@@ -1,3 +1,6 @@
+#ifndef __SEGTREE__SEGTREE_TYPE_H_
+#define __SEGTREE__SEGTREE_TYPE_H_
+
 template <typename node_t>
 struct node_inf {
     bool is_inf = true;
@@ -52,3 +55,5 @@ struct node_inf {
         } else node(y, l, r);
     }
 };
+
+#endif

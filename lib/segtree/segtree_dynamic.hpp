@@ -1,3 +1,6 @@
+#ifndef __SEGTREE_SEGTREE_DYNAMIC_H_
+#define __SEGTREE_SEGTREE_DYNAMIC_H_
+
 #include "_segtree_type.hpp"
 #include <vector>
 
@@ -43,3 +46,5 @@ class SegtreeDynamic {
     void update(const index_t j, const node_query &x) { update(0, 0, n, j, x); }
     node_seg query(const index_t l, const index_t r) const { return query(0, 0, n, l, r); }
 };
+
+#endif

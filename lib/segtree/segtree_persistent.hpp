@@ -1,0 +1,4 @@
+#ifndef __SEGTREE__SEGTREE_PERSISTENT_H_
+#define __SEGTREE__SEGTREE_PERSISTENT_H_
+
+#endif

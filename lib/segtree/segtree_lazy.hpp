@@ -1,3 +1,6 @@
+#ifndef __SEGTREE__SEGTREE_LAZY_H_
+#define __SEGTREE__SEGTREE_LAZY_H_
+
 #include "_segtree_type.hpp"
 #include <vector>
 
@@ -75,3 +78,5 @@ class SegtreeLazyWithoutInf {
         else return res.node;
     }
 };
+
+#endif

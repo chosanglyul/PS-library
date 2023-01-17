@@ -1,3 +1,6 @@
+#ifndef __SEGTREE__SEGTREE_H_
+#define __SEGTREE__SEGTREE_H_
+
 #include "_segtree_type.hpp"
 #include <vector>
 
@@ -61,3 +64,5 @@ class SegtreeWithoutInf {
 		else return res.node;
 	}
 };
+
+#endif
