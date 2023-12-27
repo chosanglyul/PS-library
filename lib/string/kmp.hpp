@@ -19,6 +19,10 @@ class KMP {
         }
     }
 
+    std::vector<int> getPi() {
+        return pi;
+    }
+
     std::vector<int> match(std::string &t) {
         std::vector<int> ret;
         for(int i = 0, j = 0; i < (int)t.size(); i++) {
